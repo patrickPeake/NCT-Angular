@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-big-btn',
@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './big-btn.component.css'
 })
 export class BigBtnComponent {
-
+  @Output() btnClick = new EventEmitter()
+  onClick(){
+    this.btnClick.emit()
+  }
 }
