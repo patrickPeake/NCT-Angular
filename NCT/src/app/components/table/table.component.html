@@ -1,10 +1,14 @@
-<table><tr>
-    <th>Location</th>
-    <th>Name</th>
-    <th>Time</th>
-    <th>Status</th>
-  </tr>
-  <tr>
-    <td>January</td>
-    <td>$100</td>
-  </tr></table>
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers">{{ header }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td *ngFor="let cell of row">{{ cell }}</td>
+      <td>more info</td>
+      <td>delete</td>
+    </tr>
+  </tbody>
+</table>

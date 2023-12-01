@@ -9,6 +9,7 @@ import { BigBtnComponent } from './components/big-btn/big-btn.component';
 import { SplitComponent } from './components/split/split.component';
 import { InfoComponent } from './components/split/info/info.component';
 import { CreateComponent } from './components/split/create/create.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CreateComponent } from './components/split/create/create.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
