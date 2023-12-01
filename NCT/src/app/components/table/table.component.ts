@@ -70,7 +70,7 @@ export class TableComponent implements OnInit {
     const password = prompt('Please enter your password:');
 
     // Check if the password is provided and matches a predefined value
-    if (password !== null && password === 'secret') {
+    if (password !== null && password === 'BaggyJeans') {
       const toDel = 'https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/' + rowId + '/';
       //console.log(toDel);
       this.http.delete(toDel,{}).subscribe()
