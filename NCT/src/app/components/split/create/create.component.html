@@ -1,6 +1,6 @@
 <div>
     <h1>Create New Incident</h1>
-    Location: <input id="loc"><br>
-    Name: <input id="name"><br>
+    Location: <input id="loc" (input)="onInputChangeL($event)"><br>
+    Name: <input id="name" (input)="onInputChangeN($event)"> <br>
     Use the Button Above to submit when the information entered is correct.
 </div>

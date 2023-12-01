@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -34,10 +34,4 @@ export class TableComponent implements OnInit {
 
 
   headers = ['Location', 'Name', 'Time', 'Status', 'more info', 'delete']; // Add or remove headers as needed
-
-  data2 = [
-    ['Row 1, Cell 1', 'Row 1, Cell 2', 'Row 1, Cell 3'],
-    ['Row 2, Cell 1', 'Row 2, Cell 2', 'Row 2, Cell 3'],
-    // Add or remove rows as needed
-  ];
 }
