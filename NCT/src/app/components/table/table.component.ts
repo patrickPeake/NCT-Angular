@@ -67,13 +67,19 @@ export class TableComponent implements OnInit {
 
 
   deleteRow(rowId: any): void {
-    // Implement the logic to delete the row with the given ID
-    console.log('Deleting row with ID:', rowId);
-    // Add your deletion logic here
-    const toDel = 'https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/' + rowId + '/';
-    //console.log(toDel);
-    this.http.delete(toDel,{}).subscribe()
-    window.location.reload();
+    const password = prompt('Please enter your password:');
+
+    // Check if the password is provided and matches a predefined value
+    if (password !== null && password === 'secret') {
+      const toDel = 'https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/' + rowId + '/';
+      //console.log(toDel);
+      this.http.delete(toDel,{}).subscribe()
+      window.location.reload();
+    } else {
+      // Handle the case where the password is incorrect or the user cancels the prompt
+      console.log('Incorrect password or canceled');
+    }
+
   }
 
 }
