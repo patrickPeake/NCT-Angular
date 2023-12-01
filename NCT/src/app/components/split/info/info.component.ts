@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './info.component.css'
 })
 export class InfoComponent {
-
+  name = "fake";
+  place = "faker";
+  time = "fakest";
+  status = "not done";
 }
