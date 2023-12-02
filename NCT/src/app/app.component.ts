@@ -1,5 +1,6 @@
-import { Component} from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { SplitComponent } from './components/split/split.component';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent {
   utcDate: any;
   utcDateString!: string;
   constructor(private http: HttpClient){}
+  @ViewChild(SplitComponent) SplitComponent: SplitComponent | undefined;
 
   addInc(){
     this.i = new Date().getTime();
@@ -28,7 +30,7 @@ export class AppComponent {
     console.log(this.name + this.place);
     this.http.post('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/',{
       "key": this.i.toString(),
-      "data": [this.place, this.name, this.utcDateString, "in progress", this.repNum, this.reporter]
+      "data": [this.place, this.name, this.utcDateString, "in progress", this.repNum, this.reporter, this.link, this.info]
     }).subscribe(
       (data:any)=>{
         console.log(data);
@@ -53,12 +55,21 @@ export class AppComponent {
   }
   updateL(value: string){
     console.log(value);
-    this.reporter = value;
+    this.link = value;
   }
   updateI(value: string){
     console.log(value);
     this.info = value;
   }
+  infoF(value: string) {
+    //console.log('info on row ' + value);
 
+    // Call the function in InfoComponent if the reference is available
+    if (this.SplitComponent) {
+      this.SplitComponent.updateInfo(value);
+    }
+  }
+
+  
 
 }

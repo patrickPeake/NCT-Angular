@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { InfoComponent } from './info/info.component';
 
 @Component({
   selector: 'app-split',
@@ -12,6 +13,8 @@ export class SplitComponent {
   @Output() updateRep = new EventEmitter();
   @Output() updateIn = new EventEmitter();
   @Output() updateLi = new EventEmitter();
+
+  @ViewChild(InfoComponent) infoComponent: InfoComponent | undefined;
 
   updateN(value: string){
     this.updateNa.emit(value)
@@ -31,5 +34,12 @@ export class SplitComponent {
   updateI(value: string){
     this.updateIn.emit(value)
   } 
+  updateInfo(value: string){
+    //console.log('info on row ' + value);
+    if (this.infoComponent) {
+      this.infoComponent.updateInfo(value);
+    }
+    
+  }
 
 }

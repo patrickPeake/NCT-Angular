@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 
@@ -10,13 +10,17 @@ import { map } from 'rxjs';
 export class TableComponent implements OnInit {
 
   title = 'httpMod';
-  i = new Date().getTime()
+  i = new Date().getTime();
+  @Output() infoRow = new EventEmitter();
 
   data: any[] = [];
   firstValues: any[] = [];
   resultArray: any[] = [];
 
   constructor(private http: HttpClient){}
+
+
+
 
   ngOnInit(): void {
     this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/')
@@ -80,6 +84,12 @@ export class TableComponent implements OnInit {
       console.log('Incorrect password or canceled');
     }
 
+  }
+
+
+  infoRowF(rowId: any): void {
+    this.infoRow.emit(rowId);
+    //console.log("info on row "+rowId);
   }
 
 }
