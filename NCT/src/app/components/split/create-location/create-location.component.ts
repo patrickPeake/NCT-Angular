@@ -48,7 +48,7 @@ export class CreateLocationComponent {
         }).subscribe(
           (data:any)=>{
             console.log(data);
-            //window.location.reload();
+            window.location.reload();
         })
         
 
