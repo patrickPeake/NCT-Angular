@@ -5,3 +5,8 @@ div {
     padding: 2.5%;
     border-radius: 10px;
 }
+
+a {
+    color: blue;
+    text-decoration: underline;
+}

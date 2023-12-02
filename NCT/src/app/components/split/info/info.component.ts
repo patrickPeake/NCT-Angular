@@ -19,6 +19,7 @@ export class InfoComponent {
   firstValues: any[] = [];
   resultArray: any[] = [];
 
+  id = "";
   name = "";
   place = "";
   time = "";
@@ -65,6 +66,7 @@ export class InfoComponent {
         console.log("end");
         for (let j = 0; j < this.data.length; j++) {
           if(this.data[j][0] === value){
+            this.id = this.data[j][0];
             this.place = this.data[j][1];
             this.name = this.data[j][2];
             this.time = this.data[j][3];
@@ -77,6 +79,28 @@ export class InfoComponent {
         }
       });
       
+  }
+
+  updateStatus(){
+    const password = prompt('Please enter your password:');
+    console.log(password);
+
+    // Check if the password is provided and matches a predefined value
+    if (password !== null && password == 'BaggyJeans') {
+      const stat = prompt('Please enter the new status:');
+      console.log(stat);
+      const path = 'https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/' + this.id + '/';
+      console.log(path);
+      this.http.put(path,{
+        "key": this.id,
+        "data": [this.place, this.name, this.time, stat, this.repNum, this.repName, this.imageUrl, this.info]
+      }).subscribe()
+    } else {
+      // Handle the case where the password is incorrect or the user cancels the prompt
+      console.log('Incorrect password or canceled');
+    }
+
+    window.location.reload();
   }
 
 
