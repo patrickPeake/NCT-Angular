@@ -6,7 +6,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let row of data" [attr.id]="row[0]">
-      <td *ngFor="let cell of row.slice(1)" id="">{{ cell }}</td>
+      <td *ngFor="let cell of row.slice(1, 5)" id="">{{ cell }}</td>
       <td>more info</td>
       <td><a (click)="deleteRow(row[0])">delete</a></td>
     </tr>

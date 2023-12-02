@@ -10,6 +10,11 @@ export class AppComponent {
   title = 'NCT';
   name!: string;
   place!: string;
+  reporter!: string;
+  repNum!: string;
+  link!: string;
+  info!: string;
+
   i = new Date().getTime();
   utcDate: any;
   utcDateString!: string;
@@ -23,7 +28,7 @@ export class AppComponent {
     console.log(this.name + this.place);
     this.http.post('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/',{
       "key": this.i.toString(),
-      "data": [this.place, this.name, this.utcDateString, "in progress"]
+      "data": [this.place, this.name, this.utcDateString, "in progress", this.repNum, this.reporter]
     }).subscribe(
       (data:any)=>{
         console.log(data);
@@ -37,6 +42,23 @@ export class AppComponent {
   updateP(value: string){
     console.log(value);
     this.place = value;
-  } 
+  }
+  updateNu(value: string){
+    console.log(value);
+    this.repNum = value;
+  }
+  updateR(value: string){
+    console.log(value);
+    this.reporter = value;
+  }
+  updateL(value: string){
+    console.log(value);
+    this.reporter = value;
+  }
+  updateI(value: string){
+    console.log(value);
+    this.info = value;
+  }
+
 
 }

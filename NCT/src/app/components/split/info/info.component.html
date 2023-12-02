@@ -1,7 +1,11 @@
 <div>
+    <ng-container *ngIf="isValidUrl(imageUrl)">
+        <img src="{{ imageUrl }}" alt="Person Image" style="max-width: 100%;" />
+    </ng-container>
     <p>Name: {{name}}</p>
     <p>Location Sighted: {{place}}</p>
     <p>Time of Sighting: {{time}}</p>
     <p>Status: {{status}}</p>
-    
+    <p>Name of Reporter: {{repName}}</p>
+    <p>Phone Number of Reporter: {{repNum}}</p>
 </div>
