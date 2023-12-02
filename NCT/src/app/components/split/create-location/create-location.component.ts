@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
@@ -10,6 +11,8 @@ export class CreateLocationComponent {
   name!: string;
   lo!: string;
   la!: string;
+
+  constructor(private http: HttpClient){}
 
   onInputChangeN(event: any) {
     this.name = event.target.value;
@@ -34,10 +37,19 @@ export class CreateLocationComponent {
   }
 
   create() {
+    const i = new Date().getTime();
+
     if (this.isValidLongitude(this.lo)) {
       if (this.isValidLatitude(this.la)) {
 
-
+        this.http.post('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/',{
+          "key": i.toString(),
+          "data": [this.name, this.lo, this.la, "0"]
+        }).subscribe(
+          (data:any)=>{
+            console.log(data);
+            //window.location.reload();
+        })
         
 
 

@@ -14,11 +14,17 @@ export class CreateComponent {
   @Output() updateIn = new EventEmitter();
 
 
+
+  locationsArray: string[] = ['Location1', 'Location2', 'Location3']; // Add your actual locations
+
+
   onInputChangeN(event :any){
     const inputValue = event.target.value;
     //console.log(inputValue)
     this.updateN.emit(inputValue)
   }
+
+  
 
   onInputChangeL(event :any){
     const inputValue = event.target.value;
@@ -48,4 +54,8 @@ export class CreateComponent {
     //console.log(inputValue)
     this.updateLi.emit(inputValue);
   }
+
+
+
+  
 }

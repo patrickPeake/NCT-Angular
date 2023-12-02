@@ -1,6 +1,10 @@
 <div>
     <h1>Create New Incident</h1>
-    Location: <input  (input)="onInputChangeL($event)"><br>
+    Location:
+    <select (change)="onInputChangeL($event)">
+        <option value="" disabled selected>Select Location</option>
+        <option *ngFor="let location of locationsArray" [value]="location">{{ location }}</option>
+    </select><br>
     Name of Offender: <input  (input)="onInputChangeN($event)"> <br>
     Name of Reporter: <input  (input)="onInputChangeR($event)"> <br>
     Phone Number of Reporter: <input  (input)="onInputChangeNu($event)"> <br>
