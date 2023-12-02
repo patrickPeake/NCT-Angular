@@ -10,6 +10,8 @@ import { SplitComponent } from './components/split/split.component';
 import { InfoComponent } from './components/split/info/info.component';
 import { CreateComponent } from './components/split/create/create.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateLocationComponent } from './components/split/create-location/create-location.component';
+import { ButtonComponent } from './components/split/create-location/button/button.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
     BigBtnComponent,
     SplitComponent,
     InfoComponent,
-    CreateComponent
+    CreateComponent,
+    CreateLocationComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,

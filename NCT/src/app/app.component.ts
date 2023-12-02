@@ -30,7 +30,7 @@ export class AppComponent {
     console.log(this.name + this.place);
     this.http.post('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/',{
       "key": this.i.toString(),
-      "data": [this.place, this.name, this.utcDateString, "in progress", this.repNum, this.reporter, this.link, this.info]
+      "data": [this.place, this.name, this.utcDateString, "OPEN", this.repNum, this.reporter, this.link, this.info]
     }).subscribe(
       (data:any)=>{
         console.log(data);

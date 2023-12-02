@@ -97,7 +97,7 @@ export class InfoComponent {
       }).subscribe()
     } else {
       // Handle the case where the password is incorrect or the user cancels the prompt
-      console.log('Incorrect password or canceled');
+      alert('Incorrect password or canceled');
     }
 
     window.location.reload();
