@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { map } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-info',
@@ -32,6 +33,7 @@ export class InfoComponent {
   repNum = "";
   imageUrl = '';
   info = "";
+  private readonly expectedHash = "fcab0453879a2b2281bc5073e3f5fe54";
 
   updateInfo(value: string){ //updates the info when called from the parent
     this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/') //extract the keys from each entry
@@ -80,8 +82,17 @@ export class InfoComponent {
 
   updateStatus(){
     const password = prompt('Please enter your password:'); 
+    let enteredHash;
 
-    if (password !== null && password == 'BaggyJeans') { //if the password is correct get the new status
+    if(password != null){
+      enteredHash = CryptoJS.MD5(password).toString();
+    } else {
+      alert("password is null");
+      return;
+    }
+    
+    // Check if the password is correct
+    if (password !== null && enteredHash === this.expectedHash) { //if the password is correct get the new status
       const stat = prompt('Please enter the new status:'); //stat could have been set to "RESOLVED" but having multiple statuses (OPEN, ASSIGNED, RESOLVED) seems like better functionality
       const path = 'https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/' + this.id + '/'; //construct the correct api call path
       console.log(path);

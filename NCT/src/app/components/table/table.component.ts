@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-table',
@@ -25,6 +26,7 @@ export class TableComponent implements OnInit {
   resultArray2: any[] = [];
 
   constructor(private http: HttpClient){}
+  private readonly expectedHash = "fcab0453879a2b2281bc5073e3f5fe54";
 
   ngOnInit(): void {
     this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/') //extract the keys from each entry
@@ -60,9 +62,17 @@ export class TableComponent implements OnInit {
 
   deleteRow(rowId: any): void {
     const password = prompt('Please enter your password:');
+    let enteredHash;
 
+    if(password != null){
+      enteredHash = CryptoJS.MD5(password).toString();
+    } else {
+      alert("password is null");
+      return;
+    }
+    
     // Check if the password is correct
-    if (password !== null && password == 'BaggyJeans') {
+    if (password !== null && enteredHash === this.expectedHash) {
       const toDel = 'https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/' + rowId + '/'; //construct full url
       this.http.delete(toDel,{}).subscribe(() => {}) //delete the row from the db
       
@@ -123,4 +133,6 @@ export class TableComponent implements OnInit {
   infoRowF(rowId: any): void { //throw the rowID of the selected row to get info of up to parent
     this.infoRow.emit(rowId);
   }
+
+
 }
