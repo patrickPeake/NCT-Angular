@@ -50,9 +50,6 @@ export class CreateLocationComponent {
             console.log(data);
             window.location.reload();
         })
-        
-
-
         console.log(this.name, this.lo, this.la);
         this.la = "1000";
         this.lo = "1000";

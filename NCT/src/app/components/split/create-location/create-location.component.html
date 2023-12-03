@@ -1,8 +1,9 @@
 <div>
     <h1>Create New Location</h1>
     Location: <input  (input)="onInputChangeN($event)"><br>
-    Longitude: <input  (input)="onInputChangeLo($event)"> <br>
-    Latitude: <input  (input)="onInputChangeLa($event)"> <br>
+    Longitude (Degrees North): <input  (input)="onInputChangeLo($event)"> <br>
+    Latitude: (Degrees West):<input  (input)="onInputChangeLa($event)"> <br>
     Use the Button below to submit when the information entered is correct.<br>
+    Coordinates should be entered in degrees north and degrees west for ease of use in the northwest hemisphere.<br>
     <app-button (create)="create()"></app-button>
 </div>
