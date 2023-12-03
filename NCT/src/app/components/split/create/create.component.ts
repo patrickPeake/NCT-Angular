@@ -59,11 +59,9 @@ export class CreateComponent {
           //console.log(this.resultArray);
         }
         this.data = this.resultArray;
-        console.log(this.resultArray);
         for (let j = 0; j < this.data.length; j++) {
           this.locationsArray[j] = this.data[j][1];
         }
-        console.log("end");
       });
 
       

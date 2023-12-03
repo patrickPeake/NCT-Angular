@@ -56,7 +56,7 @@ export class MapComponent implements OnInit {
           //console.log(this.resultArray);
         }
         this.data = this.resultArray;
-        console.log(this.resultArray);
+        //console.log(this.resultArray);
         for (let j = 0; j < this.data.length; j++) {
           let temp = [];
           temp[0] = parseFloat(this.data[j][3]);
@@ -64,10 +64,10 @@ export class MapComponent implements OnInit {
           this.coords[j] = temp;
           this.incidents[j] = parseInt(this.data[j][4]);
         }
-        console.log(this.coords);
-        console.log(this.incidents)
+        //console.log(this.coords);
+        //console.log(this.incidents)
         this.putLabels(this.coords, this.incidents);
-        console.log("got points");
+        //console.log("got points");
       });
 
 
@@ -102,7 +102,7 @@ export class MapComponent implements OnInit {
         .bindPopup("<b>Location</b><br />" + reps[itter] + " Nuisance reports"); // You can customize the popup content here
         itter++;
     });
-    console.log("done")
+    //console.log("done")
   }
 
 }
