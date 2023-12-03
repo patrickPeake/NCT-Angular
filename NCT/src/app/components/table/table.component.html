@@ -5,7 +5,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of data" [attr.id]="row[0]">
+    <tr *ngFor="let row of data" [attr.id]="row[0]"> <!--dynamically generate the table from the arrays generated from the data retrieved from the API-->
       <td *ngFor="let cell of row.slice(1, 5)" id="">{{ cell }}</td>
       <td><a class="btn btn-link" (click)="infoRowF(row[0])">more info</a></td>
       <td><a class="btn btn-link" (click)="deleteRow(row[0])">delete</a></td>

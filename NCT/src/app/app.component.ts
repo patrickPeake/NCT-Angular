@@ -9,6 +9,7 @@ import { map } from 'rxjs';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+
   title = 'NCT';
   name!: string;
   place!: string;
@@ -29,97 +30,76 @@ export class AppComponent {
   addInc(){
     this.i = new Date().getTime();
     this.utcDate = new Date(this.i);
-    this.utcDateString = this.utcDate.toUTCString();
-    
-    console.log(this.utcDateString);
-    console.log(this.name + this.place);
-    this.http.post('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/',{
+    this.utcDateString = this.utcDate.toUTCString(); //create human readable date
+// I forgot to make a new collection called incidents or something when I started messing around with the API so the...
+// collection that populates the table is called "people" even though it doesnt really have anything to do with people
+    this.http.post('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/',{ //create a new entry with the data passed up the heirarchy
       "key": this.i.toString(),
       "data": [this.place, this.name, this.utcDateString, "OPEN", this.repNum, this.reporter, this.link, this.info]
-    }).subscribe(
-      (data:any)=>{
-        console.log(data);
-        //window.location.reload();
-    })
-
-    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/')
+    }).subscribe(()=>{})
+// I also should have somehow encapsulated this functionality as a globally accessable function (service?) as this code (the http get request) is duplicated all over and very seldom changed significantly
+    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/') //extract the keys from each entry
       .pipe(
         map((jsonData: any[]) => {
           return jsonData.map(item => {
-            const firstKey = Object.keys(item)[0]; // Extract the first key
-            const firstValue = item[firstKey]; // Extract the value corresponding to the first key
+            const firstKey = Object.keys(item)[0]; 
+            const firstValue = item[firstKey]; 
             return firstValue;
           });
         })
       )
       .subscribe((valuesArray: any[]) => {
         this.firstValues = valuesArray;
-        //console.log(this.firstValues);
       });
 
-    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/')
+    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/') //extract all the data from each entry
       .pipe(
         map((jsonData: any[]) => (jsonData as any[]).map(item => item.data))
       )
       .subscribe((dataArray: any[]) => {
         this.data = dataArray;
-        //console.log(this.data);
-        for (let j = 0; j < this.data.length; j++) {
+        for (let j = 0; j < this.data.length; j++) { //combine into one array with the key as the first value and the data as the 1..n values
           let newArray = [ this.firstValues[j]];
           for(let k=0; k<this.data[j].length; k++){
             newArray.push(this.data[j][k]);
-            //console.log("this.data[j][k]");
           }
           this.resultArray.push(newArray);
-          //console.log(this.resultArray);
         }
         this.data = this.resultArray;
-        console.log(this.resultArray);
         for (let j = 0; j < this.data.length; j++) {
-          if(this.data[j][1] == this.place){
+          if(this.data[j][1] == this.place){ //checks if this is the right place entry 
             const path = 'https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/' + this.data[j][0] + '/';
-            const temp = parseInt(this.data[j][4]) + 1;
-            alert(temp);
-            this.http.put(path,{
+            const temp = parseInt(this.data[j][4]) + 1; //increments the number of incidents
+            this.http.put(path,{ //puts the updated info
               "key": this.data[j][0],
               "data": [this.place, this.data[j][2], this.data[j][3], temp.toString()]
             }).subscribe(
               () => {
-                window.location.reload();
+                window.location.reload(); //reloads the window
             })
           }
         }
-        console.log("end");
       });
   }
-  updateN(value: string){
-    console.log(value);
+  updateN(value: string){ //see "create.component.ts line 12"
     this.name = value;
   }
   updateP(value: string){
-    console.log(value);
     this.place = value;
   }
   updateNu(value: string){
-    console.log(value);
     this.repNum = value;
   }
   updateR(value: string){
-    console.log(value);
     this.reporter = value;
   }
   updateL(value: string){
-    console.log(value);
     this.link = value;
   }
   updateI(value: string){
-    console.log(value);
     this.info = value;
   }
-  infoF(value: string) {
-    //console.log('info on row ' + value);
-
-    // Call the function in InfoComponent if the reference is available
+  infoF(value: string) { //calls the child function to update the info
     if (this.SplitComponent) {
       this.SplitComponent.updateInfo(value);
     }

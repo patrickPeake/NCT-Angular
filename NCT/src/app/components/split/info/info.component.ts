@@ -9,9 +9,13 @@ import { map } from 'rxjs';
 })
 export class InfoComponent {
   
-  isValidUrl(url: string): boolean {
-    // You can implement a more sophisticated URL validation logic if needed
-    return url !== undefined && url !== null && url.trim() !== '';
+  isValidUrl(url: string): boolean { //checks if the url is valid
+    try {
+      new URL(url);
+      return true; // The URL is valid
+    } catch (error) {
+      return false; // The URL is not valid
+    }
   }
   
   constructor(private http: HttpClient){}
@@ -29,8 +33,8 @@ export class InfoComponent {
   imageUrl = '';
   info = "";
 
-  updateInfo(value: string){
-    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/')
+  updateInfo(value: string){ //updates the info when called from the parent
+    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/') //extract the keys from each entry
       .pipe(
         map((jsonData: any[]) => {
           return jsonData.map(item => {
@@ -42,31 +46,25 @@ export class InfoComponent {
       )
       .subscribe((valuesArray: any[]) => {
         this.firstValues = valuesArray;
-        //console.log(this.firstValues);
       });
 
-    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/')
+    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/') //extract all the data from each entry
       .pipe(
         map((jsonData: any[]) => (jsonData as any[]).map(item => item.data))
       )
       .subscribe((dataArray: any[]) => {
         this.data = dataArray;
-        //console.log(this.data);
-        for (let j = 0; j < this.data.length; j++) {
+        for (let j = 0; j < this.data.length; j++) { //combine into one array with the key as the first value and the data as the 1..n values
           let newArray = [ this.firstValues[j]];
           for(let k=0; k<this.data[j].length; k++){
             newArray.push(this.data[j][k]);
-            //console.log("this.data[j][k]");
           }
           this.resultArray.push(newArray);
-          //console.log(this.resultArray);
         }
         this.data = this.resultArray;
-        console.log(this.resultArray);
-        console.log("end");
-        for (let j = 0; j < this.data.length; j++) {
-          if(this.data[j][0] === value){
-            this.id = this.data[j][0];
+        for (let j = 0; j < this.data.length; j++) { 
+          if(this.data[j][0] === value){  //if this is the right row
+            this.id = this.data[j][0];  //populate the variables with the correct values 
             this.place = this.data[j][1];
             this.name = this.data[j][2];
             this.time = this.data[j][3];
@@ -78,30 +76,24 @@ export class InfoComponent {
           }
         }
       });
-      
   }
 
   updateStatus(){
-    const password = prompt('Please enter your password:');
-    console.log(password);
+    const password = prompt('Please enter your password:'); 
 
-    // Check if the password is provided and matches a predefined value
-    if (password !== null && password == 'BaggyJeans') {
-      const stat = prompt('Please enter the new status:');
-      console.log(stat);
-      const path = 'https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/' + this.id + '/';
+    if (password !== null && password == 'BaggyJeans') { //if the password is correct get the new status
+      const stat = prompt('Please enter the new status:'); //stat could have been set to "RESOLVED" but having multiple statuses (OPEN, ASSIGNED, RESOLVED) seems like better functionality
+      const path = 'https://272.selfip.net/apps/t4foZFvfjT/collections/people/documents/' + this.id + '/'; //construct the correct api call path
       console.log(path);
-      this.http.put(path,{
+      this.http.put(path,{ //put the updated status
         "key": this.id,
         "data": [this.place, this.name, this.time, stat, this.repNum, this.repName, this.imageUrl, this.info]
-      }).subscribe()
-    } else {
-      // Handle the case where the password is incorrect or the user cancels the prompt
+      }).subscribe(
+        () => {
+          window.location.reload(); //reload the window
+      })
+    } else { //alert the password is wrong
       alert('Incorrect password or canceled');
     }
-
-    window.location.reload();
   }
-
-
 }

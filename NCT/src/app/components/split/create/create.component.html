@@ -1,7 +1,7 @@
 <div>
     <h1>Create New Incident</h1>
     Location:
-    <select (change)="onInputChangeL($event)">
+    <select (change)="onInputChangeL($event)"> <!--create the drop down based on the array of locations from the ts file-->
         <option value="" disabled selected>Select Location</option>
         <option *ngFor="let location of locationsArray" [value]="location">{{ location }}</option>
     </select><br>

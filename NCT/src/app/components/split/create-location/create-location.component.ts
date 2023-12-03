@@ -14,24 +14,24 @@ export class CreateLocationComponent {
 
   constructor(private http: HttpClient){}
 
-  onInputChangeN(event: any) {
+  onInputChangeN(event: any) { //updates the name var every time the input box is changed
     this.name = event.target.value;
   }
 
-  onInputChangeLo(event: any) {
+  onInputChangeLo(event: any) { //updates the lo var every time the input box is changed
     const inputValue = event.target.value;
     if (this.isValidLongitude(inputValue)) {
       this.lo = inputValue;
-    } else {
+    } else { //if the value is invalid log to console, user is only alerted if they try to submit an invalid value not if they only enter it
       console.log('Invalid longitude value');
     }
   }
 
-  onInputChangeLa(event: any) {
+  onInputChangeLa(event: any) { //updates the la var every time the input box is changed
     const inputValue = event.target.value;
     if (this.isValidLatitude(inputValue)) {
       this.la = inputValue;
-    } else {
+    } else { //if the value is invalid log to console, user is only alerted if they try to submit an invalid value not if they only enter it
       console.log('Invalid latitude value');
     }
   }
@@ -41,37 +41,27 @@ export class CreateLocationComponent {
 
     if (this.isValidLongitude(this.lo)) {
       if (this.isValidLatitude(this.la)) {
-
-        this.http.post('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/',{
+        this.http.post('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/',{ //if the stored lat and long values are valid post a new location to the storage
           "key": i.toString(),
           "data": [this.name, this.lo, this.la, "0"]
         }).subscribe(
-          (data:any)=>{
-            console.log(data);
-            window.location.reload();
+          ()=>{
+            window.location.reload(); //then reload the page
         })
-        console.log(this.name, this.lo, this.la);
-        this.la = "1000";
-        this.lo = "1000";
-
       } else {
-        alert("invalid lat");
+        alert("invalid lat"); //alert if the values are invalid
       }
     } else {
       alert("invalid long");
     }
   }
 
-  private isValidLongitude(value: string): boolean {
-    // Add your validation logic for longitude
-    // Example: Check if the value is a valid number within the longitude range
+  private isValidLongitude(value: string): boolean { //checks if the input value is valid
     const numericValue = parseFloat(value);
     return !isNaN(numericValue) && numericValue >= -180 && numericValue <= 180;
   }
 
-  private isValidLatitude(value: string): boolean {
-    // Add your validation logic for latitude
-    // Example: Check if the value is a valid number within the latitude range
+  private isValidLatitude(value: string): boolean { //checks if the input value is valid
     const numericValue = parseFloat(value);
     return !isNaN(numericValue) && numericValue >= -90 && numericValue <= 90;
   }

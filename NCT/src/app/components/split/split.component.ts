@@ -7,8 +7,8 @@ import { InfoComponent } from './info/info.component';
   styleUrl: './split.component.css'
 })
 export class SplitComponent {
-  @Output() updateNa = new EventEmitter();
-  @Output() updatePl = new EventEmitter();
+  @Output() updateNa = new EventEmitter(); //Event Emitters
+  @Output() updatePl = new EventEmitter(); //see "create.component.ts line 12"
   @Output() updateNu = new EventEmitter();
   @Output() updateRep = new EventEmitter();
   @Output() updateIn = new EventEmitter();
@@ -16,7 +16,7 @@ export class SplitComponent {
 
   @ViewChild(InfoComponent) infoComponent: InfoComponent | undefined;
 
-  updateN(value: string){
+  updateN(value: string){ //These are all basically identical
     this.updateNa.emit(value)
   }
   updateP(value: string){
@@ -34,8 +34,7 @@ export class SplitComponent {
   updateI(value: string){
     this.updateIn.emit(value)
   } 
-  updateInfo(value: string){
-    //console.log('info on row ' + value);
+  updateInfo(value: string){ //calls the child function to update the info
     if (this.infoComponent) {
       this.infoComponent.updateInfo(value);
     }

@@ -11,8 +11,6 @@ import { map } from 'rxjs';
 
 export class MapComponent implements OnInit {
   private map!: L.Map
-
-  //constructor(){}
   constructor(private http: HttpClient){}
 
   data: any[] = [];
@@ -20,70 +18,52 @@ export class MapComponent implements OnInit {
   resultArray: any[] = [];
   coords: any[] = [];
   incidents: any[] = [];
+  names: any[] = [];
 
   ngOnInit(): void {
     this.showMap()
 
-    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/')
+    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/') //extract the keys from each entry
       .pipe(
         map((jsonData: any[]) => {
           return jsonData.map(item => {
-            const firstKey = Object.keys(item)[0]; // Extract the first key
-            const firstValue = item[firstKey]; // Extract the value corresponding to the first key
+            const firstKey = Object.keys(item)[0];
+            const firstValue = item[firstKey];
             return firstValue;
           });
         })
       )
       .subscribe((valuesArray: any[]) => {
         this.firstValues = valuesArray;
-        //console.log(this.firstValues);
       });
 
-    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/')
+    this.http.get<any[]>('https://272.selfip.net/apps/t4foZFvfjT/collections/location/documents/') //extract all the data from each entry
       .pipe(
         map((jsonData: any[]) => (jsonData as any[]).map(item => item.data))
       )
       .subscribe((dataArray: any[]) => {
         this.data = dataArray;
-        //console.log(this.data);
-        for (let j = 0; j < this.data.length; j++) {
+        for (let j = 0; j < this.data.length; j++) { //combine into one array with the key as the first value and the data as the 1..n values
           let newArray = [ this.firstValues[j]];
           for(let k=0; k<this.data[j].length; k++){
             newArray.push(this.data[j][k]);
-            //console.log("this.data[j][k]");
           }
           this.resultArray.push(newArray);
-          //console.log(this.resultArray);
         }
         this.data = this.resultArray;
-        //console.log(this.resultArray);
-        for (let j = 0; j < this.data.length; j++) {
+        for (let j = 0; j < this.data.length; j++) {  //populate the arrays for the marker values from the data extracted from the api
           let temp = [];
+          this.names[j] = this.data[j][1];
           temp[0] = parseFloat(this.data[j][3]);
           temp[1] = 0 - parseFloat(this.data[j][2]);
           this.coords[j] = temp;
           this.incidents[j] = parseInt(this.data[j][4]);
         }
-        //console.log(this.coords);
-        //console.log(this.incidents)
         this.putLabels(this.coords, this.incidents);
-        //console.log("got points");
       });
-
-
-
-    
   }
 
-  exampleCoordinatesArray = [
-    [49.2276, -123.0076],
-    [49.300054, -123.148155],
-    [49.2781, -122.9199]
-  ];
-
-  numReps = [1, 2, 3];
-
-  showMap() {
+  showMap() { //pretty sure I took this unedited from the leaflet example code
     this.map = L.map('mapid').setView([49.27, -123], 11);
 
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -99,10 +79,9 @@ export class MapComponent implements OnInit {
       // Create a marker for each set of coordinates and add it to the map
       L.marker(coordinates)
         .addTo(this.map)
-        .bindPopup("<b>Location</b><br />" + reps[itter] + " Nuisance reports"); // You can customize the popup content here
+        .bindPopup("<b>" + this.names[itter] + "</b><br />" + reps[itter] + " Nuisance reports");
         itter++;
     });
-    //console.log("done")
   }
 
 }
